@@ -1,0 +1,68 @@
+import org.json.simple.parser.JSONParser;
+
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import org.json.simple.*;
+
+public class Apijarfileuse {
+    public static void main(String[] args) {
+        JSONParser parser = new JSONParser();
+        try {
+            Scanner obj = new Scanner(System.in);
+            //System.out.println("Enter your contry");
+            //System.out.println("Enter your district");
+            //String dis=obj.nextLine();
+            URL url = new URL("http://api.openweathermap.org/geo/1.0/direct?q=jaipur,rajasthan,india&limit=5&appid=e34d930991360bd6b5727677d0eae368");
+// connection established karne ke liye
+            HttpURLConnection dat =(HttpURLConnection) url.openConnection();
+            dat.setRequestMethod("GET");
+
+// data ko read karane k liye
+            InputStreamReader in = new InputStreamReader(dat.getInputStream());
+            BufferedReader in1 = new BufferedReader(in);
+
+            String st=in1.readLine();
+
+            /*while(st!=null)
+            {
+                st=in1.readLine();
+                System.out.println(st);
+                FileWriter fw=new FileWriter("webfile.txt", true);
+                for(int i=0; i<st.length();i++){
+                    fw.write(st);
+                    System.out.println("-----------------");
+                    System.out.println("Writing successful");
+                    fw.close();}*/
+
+            //}
+            in1.close();
+            //System.out.println(st);
+            JSONParser par = new JSONParser();
+            JSONArray arr =(JSONArray) par.parse(st);
+            for(int i=0; i<arr.size();i++){
+                JSONObject obj1= (JSONObject) arr.get(i);
+                //System.out.println(obj1);
+
+            System.out.println("lon:"+obj1.get("lon"));
+                System.out.println("lat:"+obj1.get("lat"));
+                System.out.println("name:"+obj1.get("name"));
+                System.out.println("state:"+obj1.get("state"));
+                System.out.println("country:"+obj1.get("country"));
+
+            }
+
+
+            //JSONObject obj1= (JSONObject) arr.get(0);
+
+
+
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+    }
+}
